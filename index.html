@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+<!--切り替えタブ-->
+<div id="radio">
+  <div class="vue_radio">
+    <div class="tabs">
+      <input type="radio" id="tab1" name="tab" value="1" v-model="isActive">
+      <label for="tab1">タブ1</label>
+      <input type="radio" id="tab2" name="tab" value="2" v-model="isActive">
+      <label for="tab2">タブ2</label>
+      <input type="radio" id="tab3" name="tab" value="3" v-model="isActive">
+      <label for="tab3">タブ3</label>
+    </div>
+    <ul class="contents">
+      <li v-if="isActive === '1'">コンテンツ1</li>
+      <li v-else-if="isActive === '2'">コンテンツ2</li>
+      <li v-else-if="isActive === '3'">コンテンツ3</li>
+    </ul>
+  </div>
+</div>
+  <script>
+    new Vue({
+    el: '#radio',
+    data: {
+    isActive: '1'
+    }   
+    })
+  </script>
+<!--モーダルウィンドウ-->
+<div id="app">
+  <button v-on:click="openModal">開く</button>
+    <div id="overlay" v-show="showContent" v-on:click="closeModal">
+      <div id="content">
+        <p>モーダルウィンドウ</p>
+        <button v-on:click="closeModal">閉じる</button>
+      </div>
+    </div>
+</div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+      showContent: false
+      },
+      methods: {
+      openModal: function () {
+        this.showContent = true
+      },
+      closeModal: function () {
+        this.showContent = false
+      }
+      }
+    })
+  </script>
+<br>
+<br>
+<br>
+<!--リアルタイム検索-->
+<div id="app2">
+  <input type="text" v-model="keyword">
+  <table>
+    <tr v-for="user in filteredUsers" :key="user.name">
+      <td v-text="user.id"></td>
+      <td v-text="user.name"></td>
+    </tr>
+  </table>
+</div>
+<script>
+  new Vue({
+    el: '#app2',
+    data: {
+    keyword: '',
+    users: [
+      {
+        name: '佐藤',
+      },
+      {
+        name: '山田',
+      },
+      {
+        name: '鈴木',
+      },
+      {
+        name: '田中',
+      },
+      ]
+    },
+    computed: {
+      filteredUsers: function () {
+        var users = [];
+        for (var i in this.users) {
+          var user = this.users[i];
+          if (user.name.indexOf(this.keyword) !== -1){
+            users.push(user);
+          }
+        }
+        return users;
+      }
+    }
+  });
+</script>
+</body>
+</html>
